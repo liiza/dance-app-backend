@@ -107,7 +107,9 @@ venv.bak/
 /backend/bin/*
 /backend/include/*
 /backend/pip*
-
+/static/*
+*sqlite*
+*.swp
 
 
 
