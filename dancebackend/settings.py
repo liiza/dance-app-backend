@@ -26,7 +26,7 @@ SECRET_KEY = 'mk@h*)9w_9nfcf$0(q^y=y2g6kzwda-xy@ay!%$lk09&x-8y-i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'sleepy-basin-85659.herokuapp.com/']
+ALLOWED_HOSTS = ['localhost', 'sleepy-basin-85659.herokuapp.com']
 
 
 # Application definition
