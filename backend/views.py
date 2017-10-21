@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class SaveDataAPI(APIView):
 
     def post(self, request, *args, **kwargs):
-        logger.warn(request.body)       
-        record = Record(json_data=json.dumps(request.body))
+        logger.warn(request.data)       
+        record = Record(json_data=json.dumps(request.data))
         record.save()
         return Response({'message': 'ok'})
