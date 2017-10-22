@@ -27,7 +27,7 @@ class AddRecordToDance(APIView):
 
     def post(self, request, *args, **kwargs):
         json = request.data
- 
+        logger.warn(json) 
         dance = Dance.objects.get(pk=json.get('dance'))
         if not dance:
             return Response(status=400)
