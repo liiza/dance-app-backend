@@ -19,7 +19,7 @@ class SaveDataAPI(APIView):
 class CreateDanceAPI(APIView):
 
     def post(self, request, *args, **kwargs):
-        logger.warn(requst.data) 
+        logger.warn(request.data) 
         dance = Dance(name=request.data.get('name'))
         dance.save()
         return Response({'pk': dance.pk})
