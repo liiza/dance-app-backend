@@ -19,6 +19,7 @@ class SaveDataAPI(APIView):
 class CreateDanceAPI(APIView):
 
     def post(self, request, *args, **kwargs):
+        logger.warn(requst.data) 
         dance = Dance(name=request.data.get('name'))
         dance.save()
         return Response({'pk': dance.pk})
@@ -27,7 +28,6 @@ class AddRecordToDance(APIView):
 
     def post(self, request, *args, **kwargs):
         json = request.data
-        logger.warn(json) 
         dance = Dance.objects.get(pk=json.get('dance'))
         if not dance:
             return Response(status=400)
