@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.renderers import JSONRenderer
 
 import logging
 import json
 
 from .models import Record, Dance, DanceRecord
+from .serializers import DanceSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +18,14 @@ class SaveDataAPI(APIView):
         record.save()
         return Response({'message': 'ok'})
 
-class CreateDanceAPI(APIView):
+class DanceAPI(APIView):
+
+    renderer_classes = (JSONRenderer, )
+
+    def get(self, request, *args, **kwargs):
+        dances = Dance.objects.all()
+        serializer = DanceSerializer()
+        return Response([serializer.to_representation(dance) for dance in dances])
 
     def post(self, request, *args, **kwargs):
         logger.warn(request.data) 
@@ -40,4 +49,5 @@ class AddRecordToDance(APIView):
         record.time = json.get('time')
         record.save()
         return Response({'pk': record.pk})
+
 

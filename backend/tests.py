@@ -1,10 +1,12 @@
 from django.test import TestCase
 from django.urls import reverse
 
+from rest_framework.test import APITestCase
+
 import json
 
 from .models import Record, Dance, DanceRecord
-from rest_framework.test import APITestCase
+from .serializers import DanceSerializer
 
 class TestAPI(APITestCase):
 
@@ -27,7 +29,6 @@ class TestAPI(APITestCase):
         dance = Dance.objects.first()
         self.assertEquals(dance.name, 'k-pop')
 
-
     def test_should_add_record_to_dance(self):
         url = reverse('backend:record')
         dance = Dance(name='test')
@@ -43,5 +44,14 @@ class TestAPI(APITestCase):
         self.assertEquals(dance_record.z_speed, record.get('z'))
         self.assertEquals(dance_record.dance.pk, dance.pk)
         self.assertEquals(dance_record.time, record.get('time'))
-   
+ 
+    def test_should_list_all_dances(self):
+        dance = Dance()
+        dance.name = 'test'
+        dance.save()
+        url = reverse('backend:dance')
 
+        resp = self.client.get(url, accept='application/json')
+
+        self.assertEquals(resp.status_code, 200)
+        self.assertEquals(resp.data, [DanceSerializer().to_representation(dance)])
