@@ -41,8 +41,8 @@ class EvaluateExercise(APIView):
             return Response(status=400)
 
         time = json.get('time')
-        lower_limit = time - 0.5
-        upper_limit = time + 0.5
+        lower_limit = time - 500
+        upper_limit = time + 500
         record = DanceRecord.objects.filter(dance=dance.pk, time__gt=lower_limit, time__lt=upper_limit).first()
         if not record:
             raise Exception("No record found")

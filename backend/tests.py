@@ -95,7 +95,7 @@ class TestEvaluatingWorkout(APITestCase):
         record.save()
 
         resp = self.client.post(url, 
-            json.dumps({'x': 1, 'y': 2, 'z': 3,'time': record.time + 0.4, 'dance': dance.pk}),
+            json.dumps({'x': 1, 'y': 2, 'z': 3,'time': record.time + 400, 'dance': dance.pk}),
             content_type='application/json')
 
         self.assertEquals(resp.status_code, 200)
