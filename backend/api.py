@@ -28,10 +28,31 @@ class DanceAPI(APIView):
         return Response([serializer.to_representation(dance) for dance in dances])
 
     def post(self, request, *args, **kwargs):
-        logger.warn(request.data) 
         dance = Dance(name=request.data.get('name'))
         dance.save()
         return Response({'pk': dance.pk})
+
+class EvaluateExercise(APIView):
+
+    def post(self, request, *args, **kwargs):
+        json = request.data
+        dance = Dance.objects.get(pk=json.get('dance'))
+        if not dance:
+            return Response(status=400)
+
+        time = json.get('time')
+        lower_limit = time - 0.5
+        upper_limit = time + 0.5
+        record = DanceRecord.objects.filter(dance=dance.pk, time__gt=lower_limit, time__lt=upper_limit).first()
+        if not record:
+            raise Exception("No record found")
+
+        diff_x = record.x_speed - json.get('x')
+        diff_y = record.y_speed - json.get('y')
+        diff_z = record.z_speed - json.get('z')
+
+        return Response({'diff_x': diff_x, 'diff_y': diff_y, 'diff_z': diff_z})
+
 
 class AddRecordToDance(APIView):
 
