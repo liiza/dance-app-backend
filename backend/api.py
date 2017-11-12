@@ -38,14 +38,14 @@ class EvaluateExercise(APIView):
         json = request.data
         dance = Dance.objects.get(pk=json.get('dance'))
         if not dance:
-            return {'ended': True}
+            raise Exception("No dance found")
 
         time = json.get('time')
         lower_limit = time - 500
         upper_limit = time + 500
         record = DanceRecord.objects.filter(dance=dance.pk, time__gt=lower_limit, time__lt=upper_limit).first()
         if not record:
-            raise Exception("No record found")
+            return {'ended': True}
 
         diff_x = record.x_speed - json.get('x')
         diff_y = record.y_speed - json.get('y')
