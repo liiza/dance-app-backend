@@ -45,7 +45,7 @@ class EvaluateExercise(APIView):
         upper_limit = time + 500
         record = DanceRecord.objects.filter(dance=dance.pk, time__gt=lower_limit, time__lt=upper_limit).first()
         if not record:
-            return {'ended': True}
+            return Response({'ended': True})
 
         diff_x = record.x_speed - json.get('x')
         diff_y = record.y_speed - json.get('y')
