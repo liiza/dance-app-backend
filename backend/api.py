@@ -38,7 +38,7 @@ class EvaluateExercise(APIView):
         json = request.data
         dance = Dance.objects.get(pk=json.get('dance'))
         if not dance:
-            return Response(status=400)
+            return {'ended': True}
 
         time = json.get('time')
         lower_limit = time - 500
@@ -51,8 +51,7 @@ class EvaluateExercise(APIView):
         diff_y = record.y_speed - json.get('y')
         diff_z = record.z_speed - json.get('z')
 
-        return Response({'diff_x': diff_x, 'diff_y': diff_y, 'diff_z': diff_z})
-
+        return Response({'ended': False, 'diff_x': diff_x, 'diff_y': diff_y, 'diff_z': diff_z})
 
 class AddRecordToDance(APIView):
 
