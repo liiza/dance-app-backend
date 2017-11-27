@@ -1,9 +1,6 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField, JSONField
 
-class Record(models.Model):
-    json_data = JSONField(max_length=1024) 
-
 class Dance(models.Model):
     name = models.CharField(max_length=255, null=True)
 

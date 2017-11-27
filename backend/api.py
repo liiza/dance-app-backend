@@ -6,20 +6,13 @@ from rest_framework.renderers import JSONRenderer
 import logging
 import json
 
-from .models import Record, Dance, DanceRecord
+from .models import Dance, DanceRecord
 from .serializers import DanceSerializer
 
 logger = logging.getLogger(__name__)
 
-class SaveDataAPI(APIView):
-
-    def post(self, request, *args, **kwargs):
-        record = Record(json_data=request.data)
-        record.save()
-        return Response({'message': 'ok'})
 
 class DanceAPI(APIView):
-
     renderer_classes = (JSONRenderer, )
 
     def get(self, request, *args, **kwargs):
@@ -41,7 +34,7 @@ class EvaluateExercise(APIView):
             raise Exception("No dance found")
 
         time = json.get('time')
-        lower_limit = time - 500
+        lower_limit = time - 100
         upper_limit = time + 500
         record = DanceRecord.objects.filter(dance=dance.pk, time__gt=lower_limit, time__lt=upper_limit).first()
         if not record:
